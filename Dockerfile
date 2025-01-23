@@ -16,30 +16,26 @@ RUN apt-get update && apt-get install -y  build-essential \
                     wget
 
 #Get geant4
-RUN mkdir -p ~/geant4/source; \
-            cd ~/geant4/source; \
+RUN mkdir -p /geant4/source; \
+            cd /geant4/source; \
             wget "https://gitlab.cern.ch/geant4/geant4/-/archive/v11.3.0/geant4-v11.3.0.tar.gz"; \
             tar -xzf geant4-v11.3.0.tar.gz;
 
-
-
-RUN  ls ~/geant4/source
-
 #Install Geant4
-RUN mkdir -p ~/geant4/build; \
-    cd ~/geant4/build; \
-    cmake -DCMAKE_INSTALL_PREFIX=~/geant4/install ~/geant4/source/geant4-v11.3.0 \
+RUN mkdir -p /geant4/build; \
+    cd /geant4/build; \
+    cmake -DCMAKE_INSTALL_PREFIX=/geant4/install /geant4/source/geant4-v11.3.0 \
     -DGEANT4_USE_QT=ON -DGEANT4_USE_XM=ON -DGEANT4_USE_OPENGL_X11=ON \
     -DGEANT4_USE_RAYTRACER_X11=ON -DGEANT4_INSTALL_DATA=ON \
     -DGEANT4_USE_GDML=ON 
 
-RUN cd ~/geant4/build; \
-    make -j$(nproc);
+RUN cd /geant4/build; \
+    make -j$(nproc)
     
-RUN cd ~/geant4/build; \
+RUN cd /geant4/build; \
     make install
 
-ENTRYPOINT ["~/geant4/install/bin/geant4.sh"]
+RUN echo "source /geant4/install/bin/geant4.sh" >> ~/.bashrc
 
 # Define the command to run within the container
 CMD ["/bin/bash"]
