@@ -39,6 +39,7 @@ RUN cd ~/geant4/build; \
 RUN cd ~/geant4/build; \
     make install
 
+ENTRYPOINT ["~/geant4/install/bin/geant4.sh"]
 
 # Define the command to run within the container
 CMD ["/bin/bash"]
